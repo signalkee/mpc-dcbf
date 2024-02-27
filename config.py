@@ -46,7 +46,7 @@ moving_obs = [(0.2, 0, 0, 0.6, 0.1),
 #        (0.0, -0.75, 0.02)]               # Define obstacles as list of tuples (x,y,radius)
 
 
-scenario = 1                               # Options: 1-6 or None
+scenario = 6                               # Options: 1-6 or None
 
 
 # ------------------------------------------------------------------------------

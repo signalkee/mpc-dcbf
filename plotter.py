@@ -231,13 +231,51 @@ class Plotter:
         ani = FuncAnimation(fig, self.animate_path, frames=len(self.mpc.data['_x'][:, 0]), interval=config.Ts*1000, repeat=False)
         plt.show()
         # Save animation as gif
+        print("Saving path_animation")
         ani.save('images/path_animation.gif', writer=ImageMagickWriter(fps=config.sim_time/config.Ts))
+        print("Saving path_animation completed successfully")
+
+    # def animate_path(self, i):
+    #     """Draws each frame of the animation."""
+
+    #     # Robot's heading
+    #     ax.patches.remove(globals()['robot_heading'])
+    #     globals()['robot_heading'] = plt.Arrow(x=self.mpc.data['_x'][i, 0],
+    #                                            y=self.mpc.data['_x'][i, 1],
+    #                                            dx=np.cos(self.mpc.data['_x'][i, 2])/6,
+    #                                            dy=np.sin(self.mpc.data['_x'][i, 2])/6,
+    #                                            color='k',
+    #                                            width=0.1,
+    #                                            linewidth=0.6)
+    #     ax.add_patch(globals()['robot_heading'])
+
+    #     # Robot's base
+    #     ax.patches.remove(globals()['robot_base'])
+    #     globals()['robot_base'] = Circle((self.mpc.data['_x'][i, 0], self.mpc.data['_x'][i, 1]), config.r, zorder=2)
+    #     ax.add_patch(globals()['robot_base'])
+
+    #     # Robot's trace
+    #     tx = [t for t in self.mpc.data['_x'][:i, 0]]  # Trace x-axis positions
+    #     ty = [t for t in self.mpc.data['_x'][:i, 1]]  # Trace y-axis positions
+    #     globals()['trace'].set_data(tx, ty)
+
+    #     # Moving obstacle
+    #     if config.moving_obstacles_on is True:
+    #         for i_obs in range(len(config.moving_obs)):
+    #             ax.patches.remove(globals()['moving_obs%s' % str(i_obs)])
+    #             globals()['moving_obs%s' % str(i_obs)] = Circle((self.mpc.data['_tvp', 'x_moving_obs'+str(i_obs)][i],
+    #                                                              self.mpc.data['_tvp', 'y_moving_obs'+str(i_obs)][i]),
+    #                                                             config.moving_obs[i_obs][4], color='k', zorder=2)
+    #             ax.add_patch(globals()['moving_obs%s' % str(i_obs)])
+    #     return
 
     def animate_path(self, i):
         """Draws each frame of the animation."""
 
         # Robot's heading
-        ax.patches.remove(globals()['robot_heading'])
+        # Check if the artist exists and then remove it
+        if 'robot_heading' in globals() and globals()['robot_heading'] in ax.patches:
+            globals()['robot_heading'].remove()
         globals()['robot_heading'] = plt.Arrow(x=self.mpc.data['_x'][i, 0],
                                                y=self.mpc.data['_x'][i, 1],
                                                dx=np.cos(self.mpc.data['_x'][i, 2])/6,
@@ -248,7 +286,8 @@ class Plotter:
         ax.add_patch(globals()['robot_heading'])
 
         # Robot's base
-        ax.patches.remove(globals()['robot_base'])
+        if 'robot_base' in globals() and globals()['robot_base'] in ax.patches:
+            globals()['robot_base'].remove()
         globals()['robot_base'] = Circle((self.mpc.data['_x'][i, 0], self.mpc.data['_x'][i, 1]), config.r, zorder=2)
         ax.add_patch(globals()['robot_base'])
 
@@ -260,13 +299,14 @@ class Plotter:
         # Moving obstacle
         if config.moving_obstacles_on is True:
             for i_obs in range(len(config.moving_obs)):
-                ax.patches.remove(globals()['moving_obs%s' % str(i_obs)])
+                # ax.patches.pop(globals()['moving_obs%s' % str(i_obs)])
+                if 'moving_obs%s' % str(i_obs) in globals() and globals()['moving_obs%s' % str(i_obs)] in ax.patches:
+                    globals()['moving_obs%s' % str(i_obs)].remove()
                 globals()['moving_obs%s' % str(i_obs)] = Circle((self.mpc.data['_tvp', 'x_moving_obs'+str(i_obs)][i],
                                                                  self.mpc.data['_tvp', 'y_moving_obs'+str(i_obs)][i]),
                                                                 config.moving_obs[i_obs][4], color='k', zorder=2)
                 ax.add_patch(globals()['moving_obs%s' % str(i_obs)])
         return
-
 
 def plot_path_comparisons(results, gammas):
     """Plots the robot path for each method and different gamma values."""
