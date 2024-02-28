@@ -39,7 +39,7 @@ class MPC:
         self.gamma = config.gamma                # CBF parameter
         self.safety_dist = config.safety_dist    # Safety distance
         self.controller = config.controller      # Type of control
-
+        
         self.model = self.define_model()
         self.mpc = self.define_mpc()
         self.simulator = self.define_simulator()

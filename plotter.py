@@ -299,7 +299,6 @@ class Plotter:
         # Moving obstacle
         if config.moving_obstacles_on is True:
             for i_obs in range(len(config.moving_obs)):
-                # ax.patches.pop(globals()['moving_obs%s' % str(i_obs)])
                 if 'moving_obs%s' % str(i_obs) in globals() and globals()['moving_obs%s' % str(i_obs)] in ax.patches:
                     globals()['moving_obs%s' % str(i_obs)].remove()
                 globals()['moving_obs%s' % str(i_obs)] = Circle((self.mpc.data['_tvp', 'x_moving_obs'+str(i_obs)][i],

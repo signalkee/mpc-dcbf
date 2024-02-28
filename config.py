@@ -46,7 +46,7 @@ moving_obs = [(0.2, 0, 0, 0.6, 0.1),
 #        (0.0, -0.75, 0.02)]               # Define obstacles as list of tuples (x,y,radius)
 
 
-scenario = 6                               # Options: 1-6 or None
+scenario = 1                               # Options: 1-6 or None
 
 
 # ------------------------------------------------------------------------------
@@ -68,8 +68,8 @@ elif scenario == 4:
     control_type = "traj_tracking"
     trajectory = "circular"
     gamma = 0.1
-    R_tr = np.array([0.1, 0.01])        # Controls cost matrix
-    Q_tr = np.diag([800, 800, 2])    # State cost matrix
+    R_tr = np.array([0.1, 0.01])           # Controls cost matrix
+    Q_tr = np.diag([800, 800, 2])          # State cost matrix
     obs = [(-0.2, 0.8, 0.1),
            (0.1, -0.8, 0.1)]               # Define obstacles as list of tuples (x,y,radius)
 elif scenario == 5:
